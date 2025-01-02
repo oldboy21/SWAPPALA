@@ -1,47 +1,96 @@
 ﻿  Assembling syscalls.asm...
   SWAPPALA.c
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\misc.h(19,9): warning C4047: 'return': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\misc.h(19,9): warning C4047: 'return': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\misc.h(24,9): warning C4047: 'return': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\misc.h(24,9): warning C4047: 'return': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,85): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,85): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,85): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 4
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,85): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 4
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,91): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,91): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,91): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 5
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,91): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 5
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,127): warning C4047: 'function': 'ULONG' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,127): warning C4047: 'function': 'ULONG' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(27,127): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 9
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(27,127): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 9
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\swappala.h(10,35): warning C4244: 'initializing': conversion from 'SIZE_T' to 'DWORD', possible loss of data
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(10,35): warning C4244: 'initializing': conversion from 'SIZE_T' to 'DWORD', possible loss of data
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(40,59): warning C4244: 'function': conversion from 'SIZE_T' to 'ULONG', possible loss of data
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(49,10): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,107): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(49,10): warning C4024: 'function through pointer': different types for formal and actual parameter 8
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,107): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 4
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(49,10): warning C4024: 'function through pointer': different types for formal and actual parameter 9
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,113): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(49,10): warning C4024: 'function through pointer': different types for formal and actual parameter 10
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,113): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 5
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(82,14): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
   (compiling source file 'SWAPPALA.c')
   
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\SWAPPALA.c(25,12): warning C4047: 'initializing': 'SIZE_T' differs in levels of indirection from 'void *'
-C:\Users\vsant\Github\SWAPPALA\SWAPPALA\handlesenum.h(223,1): warning C4715: 'FindSectionHandle': not all control paths return a value
-  SWAPPALA.vcxproj -> C:\Users\vsant\Github\SWAPPALA\SWAPPALA\x64\Debug\SWAPPALA.exe
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(82,14): warning C4024: 'function through pointer': different types for formal and actual parameter 8
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(82,14): warning C4024: 'function through pointer': different types for formal and actual parameter 9
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(82,14): warning C4024: 'function through pointer': different types for formal and actual parameter 10
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(166,10): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(166,10): warning C4024: 'function through pointer': different types for formal and actual parameter 8
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(166,10): warning C4024: 'function through pointer': different types for formal and actual parameter 9
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(166,10): warning C4024: 'function through pointer': different types for formal and actual parameter 10
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(198,14): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(198,14): warning C4024: 'function through pointer': different types for formal and actual parameter 8
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(198,14): warning C4024: 'function through pointer': different types for formal and actual parameter 9
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\swappala.h(198,14): warning C4024: 'function through pointer': different types for formal and actual parameter 10
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(40,59): warning C4244: 'function': conversion from 'SIZE_T' to 'ULONG', possible loss of data
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,107): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,107): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 4
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,113): warning C4047: 'function': 'SIZE_T' differs in levels of indirection from 'void *'
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(108,113): warning C4024: 'ZwMapViewOfSection': different types for formal and actual parameter 5
+  (compiling source file 'SWAPPALA.c')
+  
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\SWAPPALA.c(181,27): warning C4133: '=': incompatible types - from 'HMODULE' to 'PBYTE'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\SWAPPALA.c(115,12): warning C4047: 'initializing': 'SIZE_T' differs in levels of indirection from 'void *'
+C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\handlesenum.h(223,1): warning C4715: 'FindSectionHandle': not all control paths return a value
+  SWAPPALA.vcxproj -> C:\Users\Anonymous\Code\Github\SWAPPALA\SWAPPALA\x64\Debug\SWAPPALA.exe
